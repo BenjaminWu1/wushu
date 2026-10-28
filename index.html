@@ -30,6 +30,25 @@
   --serif:"Noto Serif SC","Source Han Serif SC","Songti SC","STSong","SimSun",serif;
   --sans:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
 }
+:root[data-theme="dark"]{
+  --bg:#101215;
+  --surface:#191c20;
+  --surface-2:#23272c;
+  --text:#f0f2f4;
+  --text2:#b3bac2;
+  --text3:#838b94;
+  --border:#2f353c;
+  --accent:#c25a4e;
+  --accent-soft:#3a2321;
+  --green:#6cc08d;
+  --green-bg:#182a21;
+  --green-line:#2e5a44;
+  --red:#e26a5f;
+  --red-bg:#3a2320;
+  --red-line:#6d3b36;
+  --gold:#c9a563;
+  --gold-soft:#332b1e;
+}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{margin:0;padding:0}
 body{
@@ -82,6 +101,13 @@ a{color:inherit;text-decoration:none}
 .overall .bar{flex:1;height:5px;border-radius:3px;background:#e6e8ec;overflow:hidden}
 .overall .bar i{display:block;height:100%;background:var(--accent);border-radius:3px;transition:width .25s}
 .overall b{font-size:11px;color:var(--text2);font-variant-numeric:tabular-nums;flex:none}
+.display-bar{display:flex;align-items:center;gap:8px;margin:10px 2px 0}
+.display-bar .lbl{font-size:11px;color:var(--text2)}
+.display-bar .seg{display:flex;border:1px solid var(--border);border-radius:8px;overflow:hidden;background:var(--surface)}
+.display-bar .seg button{padding:5px 10px;font-size:11px;color:var(--text2);border-right:1px solid var(--border)}
+.display-bar .seg button:last-child{border-right:0}
+.display-bar .seg button.active{background:var(--accent);color:#fff}
+.display-bar .theme-btn{margin-left:auto;font-size:11px;color:var(--text2);border:1px solid var(--border);background:var(--surface);padding:5px 9px;border-radius:8px}
 
 /* 分组标题 */
 .group-title{
@@ -93,10 +119,17 @@ a{color:inherit;text-decoration:none}
 
 /* 目录 */
 .dir-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden}
-.dir-chapter{display:flex;align-items:center;gap:10px;padding:15px 14px;border-bottom:1px solid var(--border);background:var(--surface)}
+.dir-chapter{display:flex;flex-wrap:wrap;align-items:center;gap:8px 10px;padding:14px;border-bottom:1px solid var(--border);background:var(--surface)}
 .dir-chapter .t{flex:1;min-width:0}
-.dir-chapter .t b{display:block;font-family:var(--serif);font-size:17px;letter-spacing:.04em}
+.dir-chapter .t b{display:block;font-family:var(--serif);font-size:16.5px;line-height:1.35;letter-spacing:.03em}
 .dir-chapter .t small{display:block;font-size:11px;color:var(--text2);margin-top:4px}
+.chap-main{flex:1 1 100%;min-width:0;display:flex;align-items:center;gap:8px;text-align:left;background:none;padding:0;font-family:inherit;color:inherit}
+.chap-main .t{flex:1;min-width:0}
+.chevron{flex:none;color:#b9bec7;font-size:14px;line-height:1;transition:transform .2s ease;transform-origin:center}
+.dir-card.open .chevron{transform:rotate(180deg)}
+.dir-sections{display:grid;grid-template-rows:0fr;visibility:hidden;transition:grid-template-rows .22s ease,visibility 0s .22s}
+.dir-card.open .dir-sections{grid-template-rows:1fr;visibility:visible;transition:grid-template-rows .22s ease,visibility 0s}
+.dir-inner{min-height:0;overflow:hidden}
 .pill-btn{
   flex:none;background:var(--accent);color:#fff;font-size:12px;padding:8px 12px;
   border-radius:999px;letter-spacing:.04em;
@@ -338,6 +371,53 @@ a{color:inherit;text-decoration:none}
 
 .toast{position:fixed;left:50%;bottom:84px;transform:translateX(-50%);background:rgba(28,30,35,.94);color:#fff;font-size:12px;padding:8px 15px;border-radius:999px;z-index:80;animation:fade .15s ease;white-space:nowrap}
 
+/* 暗色模式 */
+:root[data-theme="dark"] body{background:#0b0d0f}
+:root[data-theme="dark"] .appbar,
+:root[data-theme="dark"] .quiz-bar,
+:root[data-theme="dark"] .quiz-foot,
+:root[data-theme="dark"] .tabbar{background:rgba(20,23,27,.96);border-color:var(--border)}
+:root[data-theme="dark"] .qprog .bar,
+:root[data-theme="dark"] .overall .bar,
+:root[data-theme="dark"] .mini-bar{background:#2b3138}
+:root[data-theme="dark"] .fb-exp{color:#c3c9d1}
+:root[data-theme="dark"] .fb.study{background:#2a2419;border-color:#4a3d24}
+:root[data-theme="dark"] .badge.study{background:#332b1e;color:#c9a563}
+:root[data-theme="dark"] .score-ring{background:conic-gradient(var(--accent) calc(var(--p)*1%),#2b3138 0)}
+:root[data-theme="dark"] .tab{color:#7f868f}
+:root[data-theme="dark"] .dir-row .arrow,
+:root[data-theme="dark"] .exam-item .ei-arrow{color:#5d6670}
+:root[data-theme="dark"] .qcard{box-shadow:0 2px 10px rgba(0,0,0,.35)}
+:root[data-theme="dark"] .app-shell{box-shadow:none}
+:root[data-theme="dark"] .modal-mask{background:rgba(0,0,0,.62)}
+
+/* 字号 */
+html[data-font="s"] .qtext{font-size:14.5px}
+html[data-font="s"] .opt{font-size:13px}
+html[data-font="s"] .fb-ans{font-size:12.5px}
+html[data-font="s"] .fb-exp{font-size:11.5px}
+html[data-font="s"] .dir-row .t{font-size:13.5px}
+html[data-font="s"] .dir-chapter .t b{font-size:15.5px}
+html[data-font="s"] .btn{font-size:13.5px}
+html[data-font="s"] .pill-btn{font-size:11px}
+html[data-font="s"] .statbar b{font-size:17px}
+html[data-font="s"] .type-card b{font-size:13px}
+html[data-font="s"] .list-item .q{font-size:12.5px}
+html[data-font="s"] .dialog h3{font-size:16px}
+html[data-font="s"] .dialog .desc{font-size:12px}
+html[data-font="l"] .qtext{font-size:18px}
+html[data-font="l"] .opt{font-size:15.5px}
+html[data-font="l"] .fb-ans{font-size:14.5px}
+html[data-font="l"] .fb-exp{font-size:13.5px}
+html[data-font="l"] .dir-row .t{font-size:15.5px}
+html[data-font="l"] .dir-chapter .t b{font-size:18px}
+html[data-font="l"] .btn{font-size:15.5px}
+html[data-font="l"] .pill-btn{font-size:12.5px}
+html[data-font="l"] .statbar b{font-size:21px}
+html[data-font="l"] .type-card b{font-size:15px}
+html[data-font="l"] .list-item .q{font-size:14px}
+html[data-font="l"] .dialog h3{font-size:18px}
+html[data-font="l"] .dialog .desc{font-size:13.5px}
 @media (min-width:660px){
   .app-shell{margin:20px auto;border-radius:16px;overflow:hidden;min-height:calc(100vh - 40px)}
   .tabbar{position:fixed}
@@ -8798,10 +8878,17 @@ window.QUIZ_EXAMS = [
         raw.favs = raw.favs || [];
         raw.wrong = raw.wrong || {};
         raw.examBest = raw.examBest || {};
+        raw.expanded = raw.expanded || {};
+        raw.font = raw.font || "m";
+        raw.theme = raw.theme || "light";
         return raw;
       }
     } catch (e) {}
-    return { records: {}, favs: [], wrong: {}, examBest: {} };
+    return { records: {}, favs: [], wrong: {}, examBest: {}, expanded: {}, font: "m", theme: "light" };
+  }
+  function applyPrefs() {
+    document.documentElement.setAttribute("data-font", state.font || "m");
+    document.documentElement.setAttribute("data-theme", state.theme || "light");
   }
   function save() {
     try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {}
@@ -8865,6 +8952,7 @@ window.QUIZ_EXAMS = [
     var cards = "";
     CHAPTERS.forEach(function (ch, ci) {
       var cTotal = 0, cDone = 0, rows = "";
+      var isOpen = !!(state.expanded && state.expanded[ch.title]);
       ch.sections.forEach(function (sec, i) {
         var d = secDone(sec);
         cTotal += d.total;
@@ -8878,14 +8966,18 @@ window.QUIZ_EXAMS = [
           '<span class="arrow">›</span>' +
         "</a>";
       });
-      cards += '<div class="dir-card" style="margin-bottom:12px">' +
+      cards += '<div class="dir-card' + (isOpen ? " open" : "") + '" style="margin-bottom:12px">' +
         '<div class="dir-chapter">' +
-          '<div class="t"><b>' + esc(ch.title) + "</b><small>" + ch.sections.length + " 节 · " + cTotal + " 题 · 完成 " + cDone + " 题</small></div>" +
+          '<button class="chap-main" data-chapter-toggle="' + ci + '" aria-expanded="' + (isOpen ? "true" : "false") + '">' +
+            '<span class="t"><b>' + esc(ch.title) + "</b><small>" + ch.sections.length + " 节 · " + cTotal + " 题 · 完成 " + cDone + " 题</small></span>" +
+            '<span class="chevron">⌄</span>' +
+          "</button>" +
           '<div class="ch-actions">' +
             '<button class="pill-btn" data-chapter="' + ci + '">整章练习</button>' +
             '<button class="pill-btn ghost" data-study="' + ci + '">整章背题</button>' +
           "</div>" +
-        "</div>" + rows +
+        "</div>" +
+        '<div class="dir-sections"><div class="dir-inner">' + rows + "</div></div>" +
       "</div>";
     });
 
@@ -8911,6 +9003,15 @@ window.QUIZ_EXAMS = [
           '<div class="st all"><b>' + totalAll + '</b><span>总题量</span></div>' +
         "</div>" +
         '<div class="overall"><span>总进度</span><span class="bar"><i style="width:' + pct(st.done, totalAll) + '%"></i></span><b>' + st.done + "/" + totalAll + "</b></div>" +
+        '<div class="display-bar">' +
+          '<span class="lbl">显示</span>' +
+          '<div class="seg">' +
+            '<button data-font-choice="s" class="' + (state.font === "s" ? "active" : "") + '">小</button>' +
+            '<button data-font-choice="m" class="' + (state.font === "m" ? "active" : "") + '">中</button>' +
+            '<button data-font-choice="l" class="' + (state.font === "l" ? "active" : "") + '">大</button>' +
+          "</div>" +
+          '<button class="theme-btn" data-theme-toggle>' + (state.theme === "dark" ? "日间模式" : "夜间模式") + "</button>" +
+        "</div>" +
 
         '<div class="group-title"><h2>章节练习</h2><span>按教材目录</span></div>' +
         cards +
@@ -8945,6 +9046,31 @@ window.QUIZ_EXAMS = [
           else toast("综合模拟将在全书章节完成后开放");
         }
         if (act === "reset") confirmReset();
+      });
+    });
+    document.querySelectorAll("#app [data-font-choice]").forEach(function (el) {
+      el.addEventListener("click", function () {
+        state.font = el.getAttribute("data-font-choice");
+        save(); applyPrefs(); renderHome();
+      });
+    });
+    var themeBtn = document.querySelector("#app [data-theme-toggle]");
+    if (themeBtn) themeBtn.addEventListener("click", function () {
+      state.theme = state.theme === "dark" ? "light" : "dark";
+      save(); applyPrefs(); renderHome();
+    });
+    document.querySelectorAll("#app [data-chapter-toggle]").forEach(function (el) {
+      el.addEventListener("click", function () {
+        var ci = parseInt(el.getAttribute("data-chapter-toggle"), 10);
+        var ch = CHAPTERS[ci];
+        if (!ch) return;
+        var card = el.closest(".dir-card");
+        var open = !card.classList.contains("open");
+        card.classList.toggle("open", open);
+        el.setAttribute("aria-expanded", open ? "true" : "false");
+        state.expanded = state.expanded || {};
+        state.expanded[ch.title] = open;
+        save();
       });
     });
     document.querySelectorAll("#app [data-chapter]").forEach(function (el) {
@@ -9512,7 +9638,9 @@ window.QUIZ_EXAMS = [
       { center: true }
     );
     document.querySelector("[data-clear]").addEventListener("click", function () {
-      state = { records: {}, favs: [], wrong: {}, examBest: {} };
+      var keepFont = state.font, keepTheme = state.theme;
+      state = { records: {}, favs: [], wrong: {}, examBest: {}, expanded: {}, font: keepFont, theme: keepTheme };
+      applyPrefs();
       save(); closeModal(); renderHome(); toast("已清空");
     });
   }
@@ -9582,6 +9710,7 @@ window.QUIZ_EXAMS = [
     slideTo(dx < 0 ? "next" : "prev");
   }, { passive: true });
 
+  applyPrefs();
   route();
 })();
 
