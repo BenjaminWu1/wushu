@@ -34,7 +34,7 @@
 html,body{margin:0;padding:0}
 body{
   font-family:var(--sans);color:var(--text);background:var(--bg);
-  -webkit-font-smoothing:antialiased;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;
 }
 button{font-family:inherit;color:inherit;border:0;background:none;padding:0;cursor:pointer}
 a{color:inherit;text-decoration:none}
@@ -184,7 +184,7 @@ a{color:inherit;text-decoration:none}
 .fav-btn.on svg{fill:var(--gold);stroke:var(--gold)}
 .timer{font-variant-numeric:tabular-nums;font-size:12px;color:var(--red);background:var(--red-bg);padding:5px 8px;border-radius:6px;flex:none;letter-spacing:.04em}
 
-.quiz-body{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;touch-action:pan-y;padding:10px 14px 12px;width:100%}
+.quiz-body{flex:1;min-height:0;overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;touch-action:pan-y;padding:10px 14px 12px;width:100%}
 .qprog{display:flex;align-items:center;gap:10px;margin:2px 2px 11px}
 .qprog .n{font-size:12px;color:var(--text2);flex:none;font-variant-numeric:tabular-nums}
 .qprog .n b{color:var(--text);font-size:13.5px}
@@ -193,10 +193,8 @@ a{color:inherit;text-decoration:none}
 .qprog .tp{font-size:10.5px;color:var(--text2);background:var(--surface);border:1px solid var(--border);padding:3px 7px;border-radius:5px;flex:none}
 
 .qcard{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:15px 14px;box-shadow:0 2px 10px rgba(25,30,40,.04);touch-action:pan-y}
-.qcard.enter-right{animation:enterRight .2s cubic-bezier(.22,.61,.36,1) both}
-.qcard.enter-left{animation:enterLeft .2s cubic-bezier(.22,.61,.36,1) both}
-@keyframes enterRight{from{transform:translateX(46px);opacity:0}to{transform:none;opacity:1}}
-@keyframes enterLeft{from{transform:translateX(-46px);opacity:0}to{transform:none;opacity:1}}
+.qcard.enter-right,.qcard.enter-left{animation:qFade .14s ease both}
+@keyframes qFade{from{opacity:.55}to{opacity:1}}
 .qhead{display:flex;align-items:center;gap:8px;margin-bottom:12px}
 .badge{font-size:10.5px;font-weight:600;padding:3px 8px;border-radius:5px;letter-spacing:.04em}
 .badge.single{background:var(--accent-soft);color:var(--accent)}
@@ -9169,7 +9167,7 @@ window.QUIZ_EXAMS = [
       });
     });
     var qbNew = document.querySelector(".quiz-body");
-    if (qbNew) qbNew.scrollTop = bodyY;
+    if (qbNew) { qbNew.scrollTop = bodyY; qbNew.scrollLeft = 0; }
     window.scrollTo(0, y);
   }
 
@@ -9202,8 +9200,8 @@ window.QUIZ_EXAMS = [
     animating = true;
     var card = document.querySelector(".qcard");
     if (card) {
-      card.style.transition = "transform .14s ease, opacity .14s ease";
-      card.style.transform = "translateX(" + (dir === "next" ? -46 : 46) + "px)";
+      card.style.transition = "opacity .13s ease";
+      card.style.transform = "none";
       card.style.opacity = "0";
     }
     setTimeout(function () {
