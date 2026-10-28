@@ -125,7 +125,9 @@ a{color:inherit;text-decoration:none}
 .dir-chapter .t small{display:block;font-size:11px;color:var(--text2);margin-top:4px}
 .chap-main{flex:1 1 100%;min-width:0;display:flex;align-items:center;gap:8px;text-align:left;background:none;padding:0;font-family:inherit;color:inherit}
 .chap-main .t{flex:1;min-width:0}
-.chevron{flex:none;color:#b9bec7;font-size:14px;line-height:1;transition:transform .2s ease;transform-origin:center}
+.toggle-hint{display:inline-flex;align-items:center;gap:4px;flex:none;padding:5px 9px;border-radius:999px;border:1px solid var(--accent);background:var(--surface);color:var(--accent);font-size:11px;font-weight:600;letter-spacing:.04em;box-shadow:0 2px 6px rgba(168,52,43,.10);transition:background .18s,color .18s,border-color .18s}
+.dir-card.open .toggle-hint{background:var(--accent);border-color:var(--accent);color:#fff}
+.chevron{flex:none;color:currentColor;font-size:11px;line-height:1;transition:transform .2s ease;transform-origin:center}
 .dir-card.open .chevron{transform:rotate(180deg)}
 .dir-sections{display:grid;grid-template-rows:0fr;visibility:hidden;transition:grid-template-rows .22s ease,visibility 0s .22s}
 .dir-card.open .dir-sections{grid-template-rows:1fr;visibility:visible;transition:grid-template-rows .22s ease,visibility 0s}
@@ -8970,7 +8972,7 @@ window.QUIZ_EXAMS = [
         '<div class="dir-chapter">' +
           '<button class="chap-main" data-chapter-toggle="' + ci + '" aria-expanded="' + (isOpen ? "true" : "false") + '">' +
             '<span class="t"><b>' + esc(ch.title) + "</b><small>" + ch.sections.length + " 节 · " + cTotal + " 题 · 完成 " + cDone + " 题</small></span>" +
-            '<span class="chevron">⌄</span>' +
+            '<span class="toggle-hint"><span class="toggle-text">' + (isOpen ? "收起" : "展开") + '</span><span class="chevron">⌄</span></span>' +
           "</button>" +
           '<div class="ch-actions">' +
             '<button class="pill-btn" data-chapter="' + ci + '">整章练习</button>' +
@@ -9068,6 +9070,8 @@ window.QUIZ_EXAMS = [
         var open = !card.classList.contains("open");
         card.classList.toggle("open", open);
         el.setAttribute("aria-expanded", open ? "true" : "false");
+        var hint = el.querySelector(".toggle-text");
+        if (hint) hint.textContent = open ? "收起" : "展开";
         state.expanded = state.expanded || {};
         state.expanded[ch.title] = open;
         save();
